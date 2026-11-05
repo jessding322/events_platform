@@ -93,6 +93,16 @@ Store event time as a timezone-aware timestamp and retain the IANA timezone (for
 - **Version control:** Git and GitHub, with feature branches and pull requests.
 - **Email:** An email delivery provider selected during implementation; keep the integration behind a small service so it can be changed later.
 
+## Supabase Setup
+
+1. Create a Supabase project and copy its **Project URL** plus its public **Publishable key**.
+2. In the Supabase SQL Editor, run [`supabase/migrations/20261105000000_initial_schema.sql`](supabase/migrations/20261105000000_initial_schema.sql).
+3. Copy `.env.example` to `.env.local`, then add the Project URL and Publishable key. Do not put a service role key in this app or commit `.env.local`.
+4. In Supabase Auth, configure your site URL and redirect URL as `http://localhost:3000/auth/callback` for local development. Add the Vercel URL after deployment.
+5. Start the app with `npm run dev`, then visit `/login` to request a passwordless email sign-in link.
+
+The migration creates profiles, events, RSVPs, and reminder-delivery records. It enables Row Level Security: hosts can access only their own events and attendee data, while the public RSVP flow uses narrow database functions that expose only the event details required for the shared page.
+
 ## Suggested Technical Shape
 
 - Build the host dashboard, event editor, public event pages, and RSVP forms in Next.js.
